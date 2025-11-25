@@ -1,0 +1,7 @@
+{
+    "name": "Role Based Access Control (RBAC)",
+    "author": "Reza Khoirul Wijaya Putra",
+    "type": "extension",
+    "version": "5.1.0",
+    "description": "Role Based Access Control (RBAC) for Laravel Project"
+}
