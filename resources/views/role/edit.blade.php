@@ -38,7 +38,7 @@
                 label="{{ $roleName }} Privileges"
         />
         <div class="mb-6 grid grid-cols-2 gap-4 md:grid-cols-2">
-            @foreach (\App\Enums\Permissions::cases() as $permission)
+            @foreach (\App\Extensions\RBAC\System\Enum\Permissions::cases() as $permission)
                 <input type="text" name="role_id" value="{{ $role->id }}" hidden>
                 <x-forms.input
                         class:container="h-full bg-input-background"

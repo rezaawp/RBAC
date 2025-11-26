@@ -67,6 +67,7 @@ class AuthorizationRepositoryImpl implements AuthorizationRepository
         }
 
         $modelIds = UserModuleAssignmentDetail::query()
+            ->where('purpose', 'data-access')
             ->where('model_type', $modelType)
             ->where('module_id', $idmodul)
             ->where('user_id', auth()->id())

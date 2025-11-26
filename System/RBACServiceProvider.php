@@ -35,8 +35,14 @@ class RBACServiceProvider extends ServiceProvider implements UninstallExtensionS
         );
     }
 
+    function registerMiddleware(): void
+    {
+        Route::aliasMiddleware('rbac.permission', \App\Extensions\RBAC\System\Middleware\PermissionMiddleware::class);
+    }
+
     public function boot(Kernel $kernel): void
     {
+        $this->registerMiddleware();
         $this->registerTranslations()
             ->registerViews()
             ->registerRoutes()
@@ -93,7 +99,7 @@ class RBACServiceProvider extends ServiceProvider implements UninstallExtensionS
         $this->router()
             ->group([
                 'prefix' => 'rbac',
-                'middleware' => ['web', 'auth'],
+                'middleware' => ['web', 'auth', 'rbac.permission'],
             ], function (Router $router) {
                 $router
                     ->name('dashboard.admin.rbac.')
