@@ -25,6 +25,14 @@
                     required
                 />
 
+                <x-forms.input
+                    id="label"
+                    name="label"
+                    size="lg"
+                    label="{{ __('Label') }}"
+                    required
+                />
+
                 <div class="mt-4 border-t pt-3">
                     <x-button
                         @click.prevent="modalOpen = false"

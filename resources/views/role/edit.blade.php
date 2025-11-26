@@ -55,7 +55,7 @@
                 />
             @endforeach
         </div>
-
+            
         <x-button
                 size="lg"
                 type="submit"

@@ -24,10 +24,12 @@ class RoleController extends Controller {
     function store(Request $request) {
         $request->validate([
             'role' => 'required|string|unique:roles,name',
+            'label' => 'required|string',
         ]);
 
         $role = $this->roleRepository->create([
             'name' => $request->input('role'),
+            'label' => $request->input('label'),
         ]);
 
         return redirect()->route('dashboard.admin.rbac.roles.index')

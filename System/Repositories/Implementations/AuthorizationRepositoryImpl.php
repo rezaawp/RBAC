@@ -2,6 +2,7 @@
 
 namespace App\Extensions\RBAC\System\Repositories\Implementations;
 
+use App\Extensions\RBAC\System\Exception\AuthorizationError;
 use App\Extensions\RBAC\System\Models\UserModuleAssignmentDetail;
 use App\Extensions\RBAC\System\Models\UserModuleAssignmentHeader;
 use App\Extensions\RBAC\System\Repositories\AuthorizationRepository;
@@ -47,6 +48,10 @@ class AuthorizationRepositoryImpl implements AuthorizationRepository
             ->where('module_id', $idmodul)
             ->where('user_id', auth()->id())
             ->first();
+        
+        if (! $isAllDataAccess) {
+            throw new AuthorizationError('Module header not found for the user. Please check data and contact to administrator.');
+        }
 
         $this->setModulHeader($isAllDataAccess);
 

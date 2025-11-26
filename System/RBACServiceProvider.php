@@ -10,16 +10,26 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use App\Extensions\RBAC\System\Http\Controllers\RoleController;
+use App\Extensions\RBAC\System\Models\User;
 
 class RBACServiceProvider extends ServiceProvider implements UninstallExtensionServiceProviderInterface
 {
     public function register(): void
     {
         $this->registerConfig();
-        $this->registerBindings();
+        $this->registerRepsitory();
+        $this->registerHandlerException();
     }
 
-    function registerBindings(): void
+    function registerHandlerException(): void
+    {
+        $this->app->singleton(
+            \App\Exceptions\Handler::class,
+            \App\Extensions\RBAC\System\Exception\Handler::class
+        );
+    }
+
+    function registerRepsitory(): void
     {
         $this->app->bind(
             \App\Extensions\RBAC\System\Repositories\AuthorizationRepository::class,
@@ -109,6 +119,30 @@ class RBACServiceProvider extends ServiceProvider implements UninstallExtensionS
                         $router->post("roles/permissions/save", [RoleController::class, 'rolePermissionSave'])->name('roles.permissions.save');
                     });
             });
+        
+        if (env('APP_ENV') === 'development') {
+            $this->router()
+                ->group([
+                    'prefix' => 'dev/rbac',
+                    'middleware' => ['web', 'auth', 'rbac.permission'],
+                ], function (Router $router) {
+                    $router
+                        ->name('dev.rbac.')
+                        ->group(function (Router $router) {
+                            $router->get('user-get-manager', function () {
+                                User::with(['managers' => function ($q) {
+                                    $q->where('purpose', 'manager'); // manager nya nanti di ubah sesuai role
+                                }])->get()->each(function ($user) {
+                                    echo "User: " . $user->name . "<br/>";
+                                    foreach ($user->managers as $manager) {
+                                        echo "-- Manager: " . $manager->name . "<br/>";
+                                    }
+                                    echo "<br/>";
+                                });
+                            });
+                        });
+                });
+        }
 
         return $this;
     }
