@@ -4,6 +4,7 @@ namespace App\Extensions\RBAC\System\Http\Controllers;
 
 use App\Extensions\RBAC\System\Repositories\RoleRepository;
 use App\Http\Controllers\Controller;
+use App\Services\Common\MenuService;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -53,6 +54,7 @@ class RoleController extends Controller {
         $success = $this->roleRepository->syncPermissionsToTole($request);
 
         if ($success) {
+            (new MenuService)->cacheClearBlade();
             return redirect()->route('dashboard.admin.rbac.roles.edit', ['role' => $request->input('role_id')])
                 ->with(['message' => __('Permissions updated successfully.'), 'type' => 'success']);
         } else {

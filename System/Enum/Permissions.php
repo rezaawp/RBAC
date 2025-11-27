@@ -38,6 +38,7 @@ enum Permissions: string implements \App\Enums\Contracts\WithStringBackedEnum
     case MENU_SETTINGS = 'menu_setting';
     case VIP_CHAT_WIDGET = 'VIP_CHAT_WIDGET';
     case RBAC_INDEX = 'ext_rbac_role';
+    case HR_USR_MNGMNT = 'ext_hr_user_management';
     case HR_USR_MNGMNT_SYNC_ROLE = 'ext_hr_usr_mngmnt_sync_role_user';
     case HR_USR_MNGMNT_ASSIGN_LEAD = 'ext_hr_usr_mngmnt_assign_leader';
     case HR_USR_MNGMNT_UPDATE_USER = 'ext_hr_usr_mngmnt_update';
@@ -71,6 +72,7 @@ enum Permissions: string implements \App\Enums\Contracts\WithStringBackedEnum
             self::MENU_SETTINGS           => __('Menu Settings'),
             self::VIP_CHAT_WIDGET         => __('VIP Chat Widget'),
             self::RBAC_INDEX              => __('RBAC Management'),
+            self::HR_USR_MNGMNT           => __('HR ; User Management'),
             self::HR_USR_MNGMNT_SYNC_ROLE => __('HR ; User Management ; Sync Roles'),
             self::HR_USR_MNGMNT_ASSIGN_LEAD => __('HR ; User Management ; Assign User to Leader or PIC'),
             self::HR_USR_MNGMNT_UPDATE_USER => __('HR ; User Management ; Update Data')

@@ -162,7 +162,7 @@ class RoleRepositoryImpl implements RoleRepository
             if (auth()->user()->hasRole(Roles::ADMIN)) {
                 return auth()->user()->hasPermissionTo($permission);
             }
-            
+
             return auth()->user()->hasPermissionTo($permission);
         } catch (Exception $e) {
             if ($e instanceof PermissionDoesNotExist) {
