@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use App\Extensions\RBAC\System\Http\Controllers\RoleController;
 use App\Extensions\RBAC\System\Models\User;
+use App\Extensions\RBAC\System\Repositories\RoleRepository;
+use Illuminate\Support\Facades\Blade;
 
 class RBACServiceProvider extends ServiceProvider implements UninstallExtensionServiceProviderInterface
 {
@@ -52,6 +54,10 @@ class RBACServiceProvider extends ServiceProvider implements UninstallExtensionS
 
     public function boot(Kernel $kernel): void
     {
+        Blade::if('userHasPermission', function ($permission) {
+            return app(RoleRepository::class)->userHasPermission($permission);
+        });
+
         $this->registerMiddleware();
         $this->registerTranslations()
             ->registerViews()

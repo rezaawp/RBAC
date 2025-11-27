@@ -152,6 +152,8 @@ class RoleRepositoryImpl implements RoleRepository
         if (!config('permission.use_permission_app')) {
             return true;
         }
+        
+        auth()->user()->hasRole(config('rbac::super_admin_role'));
 
         return auth()->user()->hasPermissionTo($permission);
     }
