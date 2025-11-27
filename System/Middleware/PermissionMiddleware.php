@@ -54,9 +54,9 @@ class PermissionMiddleware
             return $next($request);
         }
 
-        $permission = Menu::query()->where('route', $request->route()->getName())->first();
+        $menu = Menu::query()->where('route', $request->route()->getName())->first();
 
-        if (auth()->user()->can($permission->permission)) {
+        if (auth()->user()->can($menu->key)) {
             return $next($request);
         }
 

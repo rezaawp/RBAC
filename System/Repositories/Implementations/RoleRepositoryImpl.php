@@ -2,8 +2,11 @@
 
 namespace App\Extensions\RBAC\System\Repositories\Implementations;
 
+use App\Enums\Roles;
 use App\Extensions\RBAC\System\Repositories\RoleRepository;
 use App\Models\User;
+use Exception;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
@@ -149,13 +152,23 @@ class RoleRepositoryImpl implements RoleRepository
 
     public function userHasPermission($permission, $guardName = null): bool
     {
-        if (!config('permission.use_permission_app')) {
-            return true;
-        }
-        
-        auth()->user()->hasRole(config('rbac::super_admin_role'));
+        // if (!config('permission.use_permission_app')) {
+        //     return true;
+        // }
 
-        return auth()->user()->hasPermissionTo($permission);
+        if (auth()->user()->hasRole(Roles::SUPER_ADMIN)) return true;
+
+        try {
+            if (auth()->user()->hasRole(Roles::ADMIN)) {
+                return auth()->user()->hasPermissionTo($permission);
+            }
+            
+            return auth()->user()->hasPermissionTo($permission);
+        } catch (Exception $e) {
+            if ($e instanceof PermissionDoesNotExist) {
+                return false;
+            }
+        }
     }
 
     function myRolesAuth()
