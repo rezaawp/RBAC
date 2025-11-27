@@ -7,7 +7,7 @@ class User extends \App\Models\User
     use \App\Extensions\RBAC\System\Traits\DataAccessModel;
     protected $table = 'users';
 
-    public function managers() 
+    public function leaders() 
     {
         return $this->morphToMany(
             "\App\Models\User",

@@ -13,4 +13,9 @@ class UserModuleAssignmentDetail extends Model
         'model_type',
         'model_id',
     ];
+    
+    public function assigned()
+    {
+        return $this->morphTo();
+    }
 }
