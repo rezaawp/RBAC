@@ -50,7 +50,7 @@ class AuthorizationRepositoryImpl implements AuthorizationRepository
             ->first();
         
         if (! $isAllDataAccess) {
-            throw new AuthorizationError('Module header not found for the user. Please check data and contact to administrator.');
+            throw new AuthorizationError('Module header not found for the user. Please check data or contact to administrator.');
         }
 
         $this->setModulHeader($isAllDataAccess);
